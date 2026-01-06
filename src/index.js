@@ -10,19 +10,50 @@ function getSelectedUnits() {
     return selections;
 }
 
+function getScale(measure) {
+    switch(measure) {
+        case "millimeter":
+            return 0.001
+        case "centimeter":
+            return 0.01
+        case "decimeter":
+            return 0.1
+        case "meter":
+            return 1.0
+        case "dekameter":
+            return 10.0
+        case "hectometer":
+            return 100.0
+        case "kilometer":
+            return 1000.0
+        default:
+            return -1
+    }
+}
+
+function convertVal(val, current, convert) {
+    val *= getScale(current)
+
+    val /= getScale(convert)
+
+    return val
+}
+
 let val;
 
 document.getElementById("convert").onclick = function() {
     const val = document.getElementById("value-input").value;
-    const selections = getSelectedUnits()
+    const selections = getSelectedUnits();
 
-    // prints to check
-    console.log(val)
-    console.log(selections.current)
-    console.log(selections.convert)
+    result = convertVal(val, selections.current, selections.convert);
 
-    
+    document.getElementById("output-value").textContent = result + ' ' + selections.convert + 's'; 
 }
+
+
+
+
+
 
 /*
 async function performConversion() {

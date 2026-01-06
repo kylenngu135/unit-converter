@@ -63,6 +63,31 @@
             background-color: #3d8b40;
         }
 
+        .output-section {
+            max-width: 800px;
+            margin: 0 auto 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .output-section h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .output-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            text-align: center;
+        }
+
         .container {
             display: flex;
             gap: 20px;
@@ -188,6 +213,11 @@
                 <label for="col2-km">Kilometer (km)</label>
             </div>
         </div>
+    </div>
+
+    <div class="output-section">
+        <h3>Result:</h3>
+        <div class="output-value" id="output-value">-</div>
     </div>
 
 <script src="index.js"></script>
