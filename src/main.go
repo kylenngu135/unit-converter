@@ -1,11 +1,58 @@
 package main
 
 import (
-	"fmt"
 	"errors"
+	"fmt"
 	"math"
+	"encoding/json"
+	"log"
+	"net/http"
 )
 
+type ConversionRequest struct {
+    Value       float64 `json:"value"`
+    CurrentUnit string  `json:"current"`
+    ConvertUnit string  `json:"convert"`
+}
+
+type ConversionResponse struct {
+    Result float64 `json:"result"`
+    Error  string  `json:"error,omitempty"`
+}
+
+var conversionFactors = map[string]float64{
+    "millimeter": 0.001,
+    "centimeter": 0.01,
+    "decimeter":  0.1,
+    "meter":      1.0,
+    "dekameter":  10.0,
+    "hectometer": 100.0,
+    "kilometer":  1000.0,
+}
+
+func convert(value float64, from string, to string) (float64, error) {
+	fromFactor, ok1 := conversionFactors[from]
+	toFactor, ok2 := conversionFactors[to]
+
+	if !ok1 || !ok2 {
+		return 0, fmt.Errorf("invalid unit")
+	}
+
+	meters := value * fromFactor
+	result := meters / toFactor
+
+	return result, nil
+}
+
+func handleConvert(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func main() {
+
+}
+
+/*
 type Factor int
 
 const (
@@ -58,20 +105,6 @@ func str_to_factor(f string) (factor Factor, err error) {
 	default:
 		return M, errors.New("invalid input")
 	}
-}	
-
-func main() {
-	initial_prompts()
-	val, base, dest, err := get_input()
-
-	if err != nil {
-		fmt.Println(err)
-	} else {
-		convert := float64(base) - float64(dest)
-		result := val * math.Pow(10, convert)
-
-		fmt.Println(result)
-	}
 }
 
 func initial_prompts() {
@@ -108,3 +141,18 @@ func get_input() (val float64, base Factor, dest Factor, err error) {
 
 	return
 }
+
+func main() {
+	//initial_prompts()
+	// val, base, dest, err := get_input()
+
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		convert := float64(base) - float64(dest)
+		result := val * math.Pow(10, convert)
+
+		fmt.Println(result)
+	}
+}
+*/

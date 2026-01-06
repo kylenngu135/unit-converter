@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metric System Buttons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .input-section {
+            max-width: 800px;
+            margin: 0 auto 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .input-group label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .convert-btn {
+            padding: 10px 24px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .convert-btn:hover {
+            background-color: #45a049;
+        }
+
+        .convert-btn:active {
+            background-color: #3d8b40;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .column-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .radio-option:hover {
+            background-color: #f0f0f0;
+        }
+
+        input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        label {
+            font-size: 16px;
+            cursor: pointer;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="input-section">
+        <div class="input-group">
+            <label for="value-input">Value:</label>
+            <input type="number" id="value-input" placeholder="Enter value">
+        </div>
+        <button class="convert-btn" id="convert">Convert</button>
+    </div>
+
+    <div class="container">
+        <div class="column">
+            <div class="column-title">Current</div>
+            <div class="radio-option">
+                <input type="radio" id="col1-mm" name="column1" value="millimeter">
+                <label for="col1-mm">Millimeter (mm)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="col1-cm" name="column1" value="centimeter">
+                <label for="col1-cm">Centimeter (cm)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="col1-dm" name="column1" value="decimeter">
+                <label for="col1-dm">Decimeter (dm)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="col1-m" name="column1" value="meter">
+                <label for="col1-m">Meter (m)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="col1-dam" name="column1" value="dekameter">
+                <label for="col1-dam">Dekameter (dam)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="col1-hm" name="column1" value="hectometer">
+                <label for="col1-hm">Hectometer (hm)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="col1-km" name="column1" value="kilometer">
+                <label for="col1-km">Kilometer (km)</label>
+            </div>
+        </div>
+        
+        <div class="column">
+            <div class="column-title">Convert</div>
+            <div class="radio-option">
+                <input type="radio" id="col2-mm" name="column2" value="millimeter">
+                <label for="col2-mm">Millimeter (mm)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="col2-cm" name="column2" value="centimeter">
+                <label for="col2-cm">Centimeter (cm)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="col2-dm" name="column2" value="decimeter">
+                <label for="col2-dm">Decimeter (dm)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="col2-m" name="column2" value="meter">
+                <label for="col2-m">Meter (m)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="col2-dam" name="column2" value="dekameter">
+                <label for="col2-dam">Dekameter (dam)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="col2-hm" name="column2" value="hectometer">
+                <label for="col2-hm">Hectometer (hm)</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="col2-km" name="column2" value="kilometer">
+                <label for="col2-km">Kilometer (km)</label>
+            </div>
+        </div>
+    </div>
+
+<script src="index.js"></script>
+</body>
+</html>
