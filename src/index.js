@@ -10,57 +10,14 @@ function getSelectedUnits() {
     return selections;
 }
 
-function getScale(measure) {
-    switch(measure) {
-        case "millimeter":
-            return 0.001
-        case "centimeter":
-            return 0.01
-        case "decimeter":
-            return 0.1
-        case "meter":
-            return 1.0
-        case "dekameter":
-            return 10.0
-        case "hectometer":
-            return 100.0
-        case "kilometer":
-            return 1000.0
-        default:
-            return -1
-    }
-}
-
-function convertVal(val, current, convert) {
-    val *= getScale(current)
-
-    val /= getScale(convert)
-
-    return val
-}
-
-let val;
-
-document.getElementById("convert").onclick = function() {
-    const val = document.getElementById("value-input").value;
-    const selections = getSelectedUnits();
-
-    result = convertVal(val, selections.current, selections.convert);
-
-    document.getElementById("output-value").textContent = result + ' ' + selections.convert + 's'; 
-}
-
-
-
-
-
-
-/*
 async function performConversion() {
     const valueInput = document.getElementById('value-input');
-    const value = parseFloat(valueInput.value)
+    const value = parseFloat(valueInput.value);
+    const outputElement = document.getElementById('output-value');
+    
     if (isNaN(value)) {
         alert('Please enter a valid number');
+        outputElement.textContent = '';
         return;
     }
     
@@ -68,6 +25,7 @@ async function performConversion() {
     
     if (!units.current || !units.convert) {
         alert('Please select both current and convert units');
+        outputElement.textContent = '';
         return;
     }
     
@@ -88,12 +46,14 @@ async function performConversion() {
         
         if (data.error) {
             alert('Error: ' + data.error);
+
+            outputElement.textContent = '';
         } else {
-            alert(`Result: ${data.result} ${units.convert}`);
-            // Or display it in a dedicated result element
+            outputElement.textContent = data.result + ' ' + units.convert;
         }
     } catch (error) {
         alert('Failed to connect to server: ' + error.message);
+        outputElement.textContent = '';
     }
 }
 
@@ -102,4 +62,3 @@ document.addEventListener('DOMContentLoaded', function() {
     const convertBtn = document.querySelector('.convert-btn');
     convertBtn.addEventListener('click', performConversion);
 });
-*/

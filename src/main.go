@@ -1,9 +1,7 @@
 package main
 
 import (
-	"errors"
 	"fmt"
-	"math"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -34,6 +32,7 @@ func convert(value float64, from string, to string) (float64, error) {
 	fromFactor, ok1 := conversionFactors[from]
 	toFactor, ok2 := conversionFactors[to]
 
+
 	if !ok1 || !ok2 {
 		return 0, fmt.Errorf("invalid unit")
 	}
@@ -41,118 +40,51 @@ func convert(value float64, from string, to string) (float64, error) {
 	meters := value * fromFactor
 	result := meters / toFactor
 
+	fmt.Println("value:", value)
+	fmt.Println("fromFactor: ", fromFactor)
+	fmt.Println("toFactor: ", toFactor)
+	fmt.Println("Result: ", result)
+
 	return result, nil
 }
 
 func handleConvert(w http.ResponseWriter, r *http.Request) {
+    // Set CORS headers to allow requests from different origins (like local HTML files)
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+    w.Header().Set("Content-Type", "application/json") // Tell the client we're sending JSON
 
-}
-
-func main() {
-
-}
-
-/*
-type Factor int
-
-const (
-	Mm Factor = iota
-	Cm
-	Dm
-	M
-	Dam
-	Hm
-	Km
-)
-
-func (f Factor) String() string {
-	switch f {
-	case Mm:
-		return "Mm"
-	case Cm:
-		return "Cm"
-	case Dm:
-		return "Dm"
-	case M:
-		return "M"
-	case Dam:
-		return "Dam"
-	case Hm:
-		return "Hm"
-	case Km:
-		return "Km"
-	default:
-		return "unknown"
-	}
-}
-
-func str_to_factor(f string) (factor Factor, err error) {
-	switch f {
-	case "Mm":
-		return Mm, nil
-	case "Cm":
-		return Cm, nil
-	case "Dm":
-		return Dm, nil
-	case "M":
-		return M, nil
-	case "Dam":
-		return Dam, nil
-	case "Hm":
-		return Hm, nil
-	case "Km":
-		return Km, nil
-	default:
-		return M, errors.New("invalid input")
-	}
-}
-
-func initial_prompts() {
-	fmt.Println("This is the CLI version of the unit-converter program.")
-}
-
-func get_input() (val float64, base Factor, dest Factor, err error) {
-	var base_str string
-	var dest_str string
-	var base_err error
-	var dest_err error
-
-	fmt.Print("Enter the base value: ")
-	fmt.Scanf("%f", &val)
-	fmt.Print("Enter the base unit: ")
-	fmt.Scanf("%s", &base_str)
-	fmt.Print("Enter the new unit: ")
-	fmt.Scanf("%s", &dest_str)
-
-	base, base_err = str_to_factor(base_str)
-	dest, dest_err = str_to_factor(dest_str)
-
-	if base_err != nil {
-		err = fmt.Errorf("base factor: %s", base_err)
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
 	}
 
-	if dest_err != nil {
-		if base_err != nil {
-			err = fmt.Errorf("%w, dest factor: %s", err, dest_err)
-		} else {
-			err = fmt.Errorf("dest factor: %s", dest_err)
-		}
+	if r.Method != "POST" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
 	}
 
-	return
-}
+	var req ConversionRequest
 
-func main() {
-	//initial_prompts()
-	// val, base, dest, err := get_input()
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		json.NewEncoder(w).Encode(ConversionResponse{Error: "Invalid request"})
+		return
+	}
+
+	result, err := convert(req.Value, req.CurrentUnit, req.ConvertUnit)
 
 	if err != nil {
-		fmt.Println(err)
-	} else {
-		convert := float64(base) - float64(dest)
-		result := val * math.Pow(10, convert)
-
-		fmt.Println(result)
+		json.NewEncoder(w).Encode(ConversionResponse{Error: err.Error()})
+		return
 	}
+
+	json.NewEncoder(w).Encode(ConversionResponse{Result: result})
 }
-*/
+
+func main() {
+	http.HandleFunc("/convert", handleConvert)
+
+	fmt.Println("Server running on http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
+}
